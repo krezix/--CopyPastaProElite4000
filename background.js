@@ -1,29 +1,37 @@
-// Flag para controlar a criação do menu (sem alterações)
-let menuCreationInProgress = false;
+let menuCriado = false; // Flag para controlar se o menu já foi criado
 
-// Listeners onInstalled e onStartup (sem alterações significativas, apenas garantem a limpeza da trava)
+// Listener para o evento onChanged do storage
+chrome.storage.onChanged.addListener(async (changes, areaName) => {
+    if (areaName === 'local' && !menuCriado) {  // Verifica se é o storage local e se o menu ainda não foi criado
+        const lock = await chrome.storage.local.get('menuCreationLock');
+        if (!lock.menuCreationLock) { // Verifica o bloqueio (após o storage estar pronto)
+            await criarMenuDeContexto();
+            menuCriado = true; // Define a flag para evitar criar o menu novamente
+        }
+    }
+});
+
+
 chrome.runtime.onInstalled.addListener(async (details) => {
     console.log("onInstalled event triggered. Reason:", details.reason);
-    await chrome.storage.local.remove('menuCreationLock');
-    // Força a criação/recriação na instalação/atualização
-    await criarMenuDeContexto();
+    menuCriado = false; // Reseta a flag ao instalar/atualizar
+    await chrome.storage.local.remove('menuCreationLock'); // Remove o bloqueio
+    // A criação do menu agora é controlada pelo listener chrome.storage.onChanged
 });
 
-chrome.runtime.onStartup.addListener(async () => {
-    console.log("onStartup event triggered.");
-    await chrome.storage.local.remove('menuCreationLock');
-    // Cria/recria ao iniciar o navegador
-    await criarMenuDeContexto();
-});
-
+ 
 
 async function criarMenuDeContexto() {
-    // Controle de trava (sem alterações)
+
+
+     // Usa chrome.storage para o bloqueio persistente
     const lock = await chrome.storage.local.get('menuCreationLock');
     if (lock.menuCreationLock) {
         console.log('Criação de menu já em andamento, pulando.');
         return;
     }
+
+    // Define o bloqueio no storage
     await chrome.storage.local.set({ menuCreationLock: true });
     console.log('Iniciando criação do menu...');
 
@@ -176,6 +184,7 @@ async function criarMenuDeContexto() {
         }
     } finally {
         // Libera a trava (sem alterações)
+        
         await chrome.storage.local.remove('menuCreationLock');
         console.log('Trava de criação de menu liberada.');
     }
