@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>CopyPasta Pro Elite 4000</title>
+    <style>
+        body {
+            width: 380px;
+            padding: 15px;
+            font-family: 'Arial', sans-serif;
+            background: #f8f9fa;
+            color: #495057;
+        }
+
+        h3 {
+            text-align: center;
+            color: #339af0;
+            margin-bottom: 10px;
+            font-size: 1.5em;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .controls-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .mode-toggle {
+            display: flex; /* Para alinhar botões lado a lado */
+            gap: 5px; /* Espaço entre os botões de modo */
+        }
+
+        .mode-toggle button {
+            background: #e9ecef;
+            border: 1px solid #dee2e6;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px; /* Reduzido um pouco */
+            white-space: nowrap; /* Evita quebra de linha */
+        }
+
+        .mode-toggle button.active {
+            background: #339af0;
+            color: white;
+            border-color: #228be6;
+        }
+
+        #btnOrganize {
+            background: #6c757d;
+            color: white; /* Garante texto branco */
+            border: none; /* Remove borda padrão */
+            font-size: 11px;
+            padding: 4px 8px; /* Ajuste padding */
+            border-radius: 4px; /* Consistente com outros botões */
+            cursor: pointer;
+            transition: background-color 0.2s; /* Transição suave */
+            white-space: nowrap;
+        }
+         #btnOrganize:hover {
+            background: #5a6268;
+         }
+
+
+        .subtitle {
+            text-align: center;
+            font-style: italic;
+            color: #495057;
+            margin-bottom: 20px;
+            background: #e9ecef;
+            padding: 5px 10px; /* Ajuste padding */
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em; /* Levemente menor */
+        }
+
+        .input-container {
+            margin-bottom: 20px;
+        }
+
+        .input-container.advanced {
+            display: none;
+        }
+
+        .simple-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        textarea, input[type="text"], input[type="search"] {
+            padding: 8px;
+            border: 2px solid #dee2e6;
+            border-radius: 4px;
+            background: white;
+            color: #495057;
+            transition: border-color 0.3s;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #339af0;
+            outline: none;
+        }
+
+        .folder-select {
+            margin-bottom: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        select {
+            flex: 1;
+            padding: 8px;
+            border: 2px solid #dee2e6;
+            border-radius: 4px;
+            background: white;
+        }
+
+        button { /* Estilo geral para botões principais */
+            background: #339af0;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #228be6;
+            transform: translateY(-1px);
+        }
+
+        .folder-management {
+            margin: 15px 0;
+            padding: 10px;
+            background: #e9ecef;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .folder-list {
+            margin-top: 10px;
+        }
+
+        .folder-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px;
+            background: white;
+            margin-bottom: 5px;
+            border-radius: 3px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            max-height: 250px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            margin-bottom: 8px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+            transition: all 0.2s;
+        }
+
+        li:hover {
+            transform: translateX(3px);
+            border-color: #339af0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        li .folder-badge {
+            font-size: 12px;
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-right: 8px;
+            flex-shrink: 0;
+            color: #495057; /* Cor do texto do badge */
+        }
+
+        .productivity-meter {
+            text-align: center;
+            font-size: 12px;
+            color: #868e96;
+            margin-top: 15px;
+            padding: 10px 5px; /* Aumenta padding vertical */
+            border-top: 1px dashed #dee2e6;
+        }
+
+        .pro-tip {
+            font-size: 11px;
+            color: #868e96;
+            font-style: italic;
+            text-align: center;
+            margin-top: 5px;
+            padding: 0 10px; /* Evita que o texto encoste nas bordas */
+        }
+
+
+        .backup-controls {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e9ecef;
+            border-radius: 8px;
+        }
+
+        .backup-controls h4 {
+            margin: 0 0 10px 0;
+            color: #495057;
+            font-size: 14px;
+            text-align: center; /* Centraliza título do backup */
+        }
+
+        .backup-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .backup-btn {
+            flex: 1;
+            background: #495057;
+            color: white;
+            padding: 8px;
+            font-size: 12px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .backup-btn:hover {
+            background: #343a40;
+            transform: translateY(-1px);
+        }
+
+        .import-container {
+            flex: 1;
+        }
+
+        .import-container button { /* Garante que o botão de importar ocupe espaço */
+            width: 100%;
+            background: #495057; /* Mesmo estilo do exportar */
+            color: white;
+            padding: 8px;
+            font-size: 12px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: normal; /* Remove bold do botão geral */
+        }
+        .import-container button:hover {
+             background: #343a40;
+             transform: translateY(-1px);
+        }
+
+        /* Estilos dos itens na lista (mantidos) */
+        .item-text {
+           flex-grow: 1;
+           margin-right: 10px;
+           word-break: break-word;
+        }
+
+        .item-actions {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            flex-shrink: 0;
+        }
+
+        .item-actions button {
+            padding: 2px 5px;
+            font-size: 12px;
+            min-width: 20px;
+            line-height: 1;
+            font-weight: normal; /* Remove bold do botão geral */
+        }
+
+        .remove-btn { background-color: #f15b6c; color: white; }
+        .remove-btn:hover { background-color: #d94758; }
+        .edit-btn { background-color: #ffc107; color: #333; }
+        .edit-btn:hover { background-color: #e0a800; }
+        .move-btn { background-color: #6c757d; color: white; }
+        .move-btn:hover { background-color: #5a6268; }
+        .move-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* Estilos para o modo de edição (mantidos) */
+        .edit-controls {
+             display: flex;
+             flex-direction: column;
+             gap: 5px;
+             width: 100%;
+         }
+         .edit-controls input, .edit-controls select {
+             width: auto; /* Ajusta automaticamente */
+             margin-bottom: 5px;
+             padding: 6px;
+             font-size: 13px;
+         }
+         .edit-buttons {
+             display: flex;
+             gap: 5px;
+             justify-content: flex-end;
+         }
+         .edit-buttons button {
+             padding: 4px 8px;
+             font-size: 12px;
+             font-weight: normal; /* Remove bold do botão geral */
+         }
+         .save-btn { background-color: #28a745; color: white; }
+         .cancel-btn { background-color: #6c757d; color: white; }
+
+         /* Estilos Separador Customizado (mantidos) */
+         .separator-options {
+            font-size: 12px;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+         }
+         .separator-options label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+         }
+         #customSeparatorInput {
+            width: 50px;
+            padding: 4px;
+            font-size: 12px;
+            text-align: center;
+            margin-left: 5px;
+         }
+         /* Estilos Configurações (mantidos) */
+         .settings-section {
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #e9ecef;
+            font-size: 12px;
+         }
+         .settings-section label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+         }
+
+
+         /* === Estilos para Toast Notifications === */
+#toast-container {
+    position: fixed; /* Fica fixo na tela do popup */
+    bottom: 15px;    /* Espaçamento inferior */
+    right: 15px;     /* Espaçamento direito */
+    z-index: 1050;   /* Garante que fique sobre outros elementos */
+    display: flex;
+    flex-direction: column-reverse; /* Toasts empilham de baixo para cima */
+    align-items: flex-end;       /* Alinha toasts à direita */
+    gap: 10px;                   /* Espaço entre toasts */
+}
+
+.toast {
+    background-color: #333; /* Cor padrão (info) */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    opacity: 0; /* Começa invisível para animação */
+    transform: translateY(20px); /* Começa um pouco abaixo para animação */
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Animação suave */
+    max-width: 300px;
+    font-size: 0.9em;
+    cursor: pointer; /* Indica que pode ser clicado para fechar */
+}
+
+/* Classe adicionada via JS para mostrar o toast */
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Cores para tipos diferentes de toast */
+.toast.toast-success {
+    background-color: #28a745; /* Verde */
+}
+
+.toast.toast-error {
+    background-color: #dc3545; /* Vermelho */
+}
+
+.toast.toast-warning {
+    background-color: #ffc107; /* Amarelo */
+    color: #333; /* Texto escuro para melhor contraste */
+}
+
+    </style>
+</head>
+<body>
+    <!-- *** EMOJIS SUBSTITUÍDOS POR ENTIDADES HTML *** -->
+    <h3>&#x1FAB0; CopyPasta Pro Elite 4000</h3> <!-- Mosca -->
+
+    <div class="controls-row">
+        <div class="mode-toggle">
+            <button id="btnSimple" class="active">Modo Simplório &#x1F9AD;</button> <!-- Bocejo -->
+            <button id="btnAdvanced">Modo Master &#x1F9E0;</button> <!-- Cérebro -->
+        </div>
+        <button id="btnOrganize" title="Abrir organizador avançado em nova aba">Organizar &#x270E;</button> <!-- Lápis -->
+    </div>
+
+
+    <div class="subtitle">A Extensão que Seu Chefe Pensa que Você Não Usa</div>
+
+    <!-- Modo Simples -->
+    <div class="input-container simple">
+        <div class="simple-input">
+            <input id="novoItemSimples" type="text" placeholder="Digite algo que você está cansado de digitar..." />
+            <button id="btnAdicionarSimples" title="Adicionar à sua coleção de preguiça">+</button>
+        </div>
+    </div>
+
+    <!-- Modo Avançado -->
+    <div class="input-container advanced">
+        <div class="folder-select">
+            <select id="pastaSelect">
+                <option value="">&#x1F4C1; Selecione uma pasta (ou não)</option> <!-- Pasta -->
+                <!-- Pastas carregadas dinamicamente -->
+                <option value="novaPasta">&#x2795; Criar nova pasta...</option> <!-- Mais -->
+            </select>
+        </div>
+        <textarea id="multiInput" rows="4"
+            placeholder="Digite ou cole itens aqui... Um por linha ou use o separador customizado. Sem pressão."></textarea>
+
+        <!-- Controles Separador -->
+        <div class="separator-options">
+            <span>Separar por:</span>
+            <label>
+                <input type="radio" name="separatorMode" id="separatorModeNewline" value="newline" checked> Nova Linha
+            </label>
+            <label>
+                <input type="radio" name="separatorMode" id="separatorModeCustom" value="custom"> Outro:
+                <input type="text" id="customSeparatorInput" value=";" maxlength="5" disabled>
+            </label>
+        </div>
+
+        <div class="pro-tip">Dica Pro: Cole listas inteiras aqui. Ninguém precisa saber que você não digitou tudo. &#x1F609;</div> <!-- Piscadela -->
+        <button id="btnAdicionarAvancado" style="width: 100%; margin-top: 10px;">Adicionar à Coleção de Produtividade&trade;</button> <!-- TM -->
+    </div>
+
+    <!-- Gerenciamento de Pastas (Modo Avançado) -->
+    <div class="folder-management">
+        <input type="text" id="novaPasta" placeholder="Nome da nova pasta..." />
+        <button id="btnAddFolder" style="font-size: 12px; padding: 4px 8px;">Criar Pasta</button>
+        <div class="folder-list">
+            <!-- Pastas serão inseridas aqui dinamicamente -->
+        </div>
+    </div>
+
+    <!-- Lista de Itens -->
+    <ul id="lista">
+        <!-- Items serão inseridos aqui -->
+    </ul>
+
+    <!-- Seção de Configurações -->
+    <div class="settings-section">
+         <label>
+            <input type="checkbox" id="chkEnableNumbering"> Numerar itens no menu (001., 002...)
+         </label>
+    </div>
+
+    <!-- Controles de Backup -->
+    <div class="backup-controls">
+        <h4>&#x1F4BE; Backup &amp; Restauração &#x1F4BE;</h4> <!-- Disquete -->
+        <div class="backup-buttons">
+            <button id="btnExportar" class="backup-btn">
+                &#x1F4E4; Exportar Tudo
+            </button> <!-- Caixa saindo -->
+            <div class="import-container">
+                <input type="file" id="importFile" accept=".json" style="display: none;">
+                <button id="btnImportar" class="backup-btn">
+                    &#x1F4E5; Importar Backup
+                </button> <!-- Caixa entrando -->
+            </div>
+        </div>
+        <div class="pro-tip">Dica Pro: Guarde seus backups como se fossem senhas do banco! &#x1F3E6;</div> <!-- Banco -->
+    </div>
+
+    <!-- Medidor de Produtividade -->
+    <div class="productivity-meter">
+        &#x1F9E0; Produtividade Aumentada: 999% <!-- Cérebro -->
+        <br>
+        &#x2328;&#xFE0F; Teclas Poupadas: Infinitas <!-- Teclado -->
+        <br>
+        &#x1FAB0; Nível de Automatização: Over 9000! <!-- Mosca -->
+    </div>
+
+    <!-- Container para Toasts -->
+    <div id="toast-container"></div>
+
+    <script src="popup.js"></script>
+</body>
+</html>

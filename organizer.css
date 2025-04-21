@@ -1,0 +1,375 @@
+/* === ESTILOS EXISTENTES (MANTENHA TODOS OS ANTERIORES) === */
+body {
+    font-family: sans-serif;
+    margin: 0;
+    background-color: #f4f7f6;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: #339af0; /* Azul */
+    color: white;
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.6em;
+}
+
+.actions-bar button {
+    background-color: #ffffff;
+    color: #339af0;
+    border: 1px solid #339af0;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+    font-weight: bold;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.actions-bar button:hover:not(:disabled) {
+    background-color: #e7f5ff;
+}
+
+.actions-bar button:disabled {
+    background-color: #e9ecef;
+    color: #adb5bd;
+    cursor: not-allowed;
+    border-color: #dee2e6;
+}
+
+/* saveStatus removido */
+
+.organizer-container {
+    display: flex;
+    flex-grow: 1;
+    padding: 20px;
+    gap: 20px; /* Espaço entre as colunas */
+}
+
+.folders-column, .items-column {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    flex: 1; /* Faz as colunas ocuparem espaço igual */
+    min-width: 300px; /* Largura mínima */
+    align-self: flex-start; /* Impede que estiquem verticalmente sem necessidade */
+}
+
+.folders-column h2, .items-column h2 {
+    margin-top: 0;
+    color: #339af0;
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.folder-list, .snippet-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    min-height: 40px; /* Altura mínima */
+    border-radius: 4px;
+}
+
+.folder {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+.folder .folder-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+}
+
+
+.folder .folder-name {
+    font-weight: bold;
+    color: #495057;
+    margin-right: 10px;
+    flex-grow: 1;
+}
+
+.folder .snippet-list {
+    margin-top: 5px;
+    padding: 10px 15px 5px 30px;
+    border-top: 1px dashed #e0e0e0;
+    min-height: 20px;
+    background-color: #fff;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+.snippet {
+    background-color: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+
+.snippet:last-child {
+    margin-bottom: 0;
+}
+
+.snippet-text {
+    flex-grow: 1;
+    margin-right: 10px;
+    font-size: 0.95em;
+    color: #555;
+    word-break: break-word;
+}
+
+.snippet-move-controls {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: auto;
+    padding-left: 10px;
+}
+
+.snippet-move-controls select {
+    padding: 4px 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.9em;
+    max-width: 150px;
+}
+
+.snippet-move-controls button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2em;
+    padding: 0 3px;
+    line-height: 1;
+}
+
+.snippet-move-controls .confirm-move-snippet { color: #28a745; }
+.snippet-move-controls .confirm-move-snippet:hover { color: #218838; }
+.snippet-move-controls .cancel-move-snippet { color: #dc3545; }
+.snippet-move-controls .cancel-move-snippet:hover { color: #c82333; }
+
+.folder-actions, .snippet-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.folder-actions button, .snippet-actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1em;
+    padding: 2px;
+    color: #6c757d;
+    transition: color 0.2s;
+    line-height: 1;
+}
+.folder-actions button:hover, .snippet-actions button:hover { color: #339af0; }
+.folder-actions .delete-folder:hover, .snippet-actions .delete-snippet:hover { color: #e63946; }
+.folder-actions button:disabled, .snippet-actions button:disabled { color: #adb5bd; cursor: not-allowed; }
+
+footer {
+    text-align: center;
+    padding: 15px;
+    font-size: 0.9em;
+    color: #6c757d;
+    background-color: #e9ecef;
+    margin-top: auto;
+}
+
+/* === NOVOS ESTILOS PARA MODAL E TOASTS === */
+
+/* Overlay do Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Garante que fique por cima */
+}
+
+/* Conteúdo do Modal */
+.modal-content {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 500px; /* Largura máxima */
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #339af0;
+    text-align: center;
+}
+
+.modal-content textarea {
+    width: 100%;
+    box-sizing: border-box; /* Inclui padding e border na largura total */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    margin-bottom: 15px;
+    resize: vertical; /* Permite redimensionar verticalmente */
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end; /* Alinha botões à direita */
+    gap: 10px;
+}
+
+.modal-actions button {
+    padding: 8px 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    border: 1px solid;
+}
+
+#btnCancelEditSnippet {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    border-color: #dee2e6;
+}
+#btnCancelEditSnippet:hover {
+    background-color: #e9ecef;
+}
+
+#btnSaveEditSnippet {
+    background-color: #339af0;
+    color: white;
+    border-color: #339af0;
+}
+#btnSaveEditSnippet:hover {
+    background-color: #1c7ed6;
+}
+
+
+/* Container de Toasts */
+#toastContainer {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050; /* Acima do modal overlay */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: auto; /* Ajusta à largura do conteúdo */
+    max-width: 350px;
+}
+
+/* Estilo Base do Toast */
+.toast {
+    background-color: #333;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 6px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    opacity: 0; /* Começa invisível */
+    transform: translateX(100%); /* Começa fora da tela (direita) */
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    font-size: 0.95em;
+    display: flex; /* Para alinhar botões se houver */
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Animação de Entrada */
+.toast.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Animação de Saída (adicionada antes de remover) */
+.toast.hide {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+
+/* Tipos de Toast */
+.toast.toast-success { background-color: #28a745; } /* Verde */
+.toast.toast-error { background-color: #dc3545; } /* Vermelho */
+.toast.toast-warning { background-color: #ffc107; color: #333; } /* Amarelo */
+.toast.toast-info { background-color: #17a2b8; } /* Azul info */
+.toast.toast-confirm { background-color: #6c757d; } /* Cinza para confirmação */
+
+/* Botões dentro do Toast (para confirmação) */
+.toast-actions button {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 5px;
+    font-size: 0.9em;
+}
+.toast-actions button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+
+.add-snippet-folder-select {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.add-snippet-folder-select label {
+    font-weight: bold;
+    color: #555;
+}
+
+.add-snippet-folder-select select {
+    flex-grow: 1;
+    padding: 6px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.95em;
+}
+
+/* Ajuste no botão de salvar do modal de adicionar */
+#btnConfirmAddSnippet {
+    background-color: #28a745; /* Verde */
+    color: white;
+    border-color: #28a745;
+}
+#btnConfirmAddSnippet:hover {
+    background-color: #218838;
+}

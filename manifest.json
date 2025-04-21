@@ -1,0 +1,27 @@
+{
+    "name": "CopyPasta Pro Elite 4000",
+    "description": "A extensão que aumenta sua produtividade em 300%* (*estatística totalmente inventada)",
+    "version": "0.0.5",
+    "manifest_version": 3,
+    "permissions": [
+        "contextMenus",
+        "activeTab",
+        "storage",
+        "scripting"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "icons/pasta16.png",
+            "48": "icons/pasta48.png",
+            "128": "icons/pasta128.png"
+        }
+    },
+    "content_scripts": [{
+        "matches": ["<all_urls>"],
+        "js": ["content.js"]
+    }]
+}
